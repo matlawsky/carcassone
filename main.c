@@ -7,8 +7,16 @@
 #define cellSize 6
 #define tileNumber 14
 
-// Definicja struktur
+// [] [] [] [] [] [] [] []
 
+//ListHeader ---> &[val] *alloca*
+//  prev //--- [val] ---> next || prev <--- [val] ---> next || prev <--- [val] ---> next || prev <--- [val]  ---> next || prev <--- [val]  ---// next 
+// --// NULL ptr
+// insert                 (ListHeader, val)
+// delete by name / by id (ListHeader, id) (ListHeader, name)
+
+// Definicja struktur
+	
 extern int errno;
 
 struct tile{
