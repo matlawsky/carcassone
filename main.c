@@ -40,6 +40,7 @@ struct tile_placed
 };
 
 typedef struct tile_placed tile_placed;
+// problem z rozszerzaniem - rozszerza się zawsze w dół... ;/
 
 // defiinicja funkcji tablica 2d
 
@@ -399,6 +400,7 @@ void welcomeScreen (tile* tl, int N)
 	printf ("then points will be counted and player who gets more points wins.\n");
 	printf ("List of the tiles. (below is the information what does the number below imply)\n");
 	printf ("id   name   isTemple   crossRoads   bonus   top   right   bottom   left\n");
+	getch();
 	for(int i =0; i<N ; i++)
     {
             printf("%d,%s,%d,%d,%d,%d,%d,%d,%d;\n", tl[i].id, tl[i].name, tl[i].isTemple, tl[i].crossRoads, tl[i].bonus,  tl[i].top, tl[i].right, tl[i].bottom, tl[i].left);
