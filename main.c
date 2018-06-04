@@ -18,7 +18,7 @@
 // Definicja struktur
 	
 extern int errno;
-
+ // example https://github.com/wutproggroup/carcassonne
 struct tile{
     int id;
     char* name;
