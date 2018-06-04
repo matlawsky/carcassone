@@ -21,7 +21,7 @@ struct tile{
     int right;
     int bottom;
     int left;
-};
+}; //poprawić strukturę tak żeby można było rozszerzać tablicę
 
 typedef struct tile tile;
 
