@@ -1,11 +1,21 @@
+#define  RND_IMPLEMENTATION
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
 #include <string.h>
 #include <wchar.h>
 #include <ctype.h>
+#include <time.h> // for time
+#include "rnd.h"
+
+
 #define cellSize 6
 #define tileNumber 14
+#define ilosc 7
+
+
+
 
 // Definicja struktur
 
@@ -39,6 +49,7 @@ void free2Darray(tile_placed** p, int N);
 void print(tile_placed** p, int N);
 void fill_with_zeros(tile_placed** p, int N);
 void fill_with_nothing(tile* tl, int N);
+void fill_available(tile* avtl, tile* tl, int rozmiar);
 
 void fill_from_file(tile_placed** p, char* filename, int N, int powiekszone);
 
@@ -49,9 +60,6 @@ int **get_2d(int N);
 int *get_1d(int N);
 
 //ai
-
-
-//randomowe tilesy
 
 
 // graphics
@@ -76,15 +84,16 @@ int main(int argc, char *argv[])
 {
     // pobierane argumenty przy wywo³ywaniu programu
     // char *folder = argv[1];
-    // char *tiles = argv[2];
-    // char *map = argv[3];
+    char *tilesy = argv[1];
+    char *mapa = argv[2];
 
-    char* mapa = "output.list";
-    char* tilesy = "tiles.list";
-    char* output = "output.list";
+    //char* mapa = "output.list";
+    //char* tilesy = "tiles.list";
+    //char* output = "output.list";
 
     // structs entities
     tile *tl;
+    tile *avtl;
     tile_placed **p;
     tile_placed **pn;
 
@@ -122,22 +131,24 @@ int main(int argc, char *argv[])
 
 
     tl = get_1d(tileNumber);
+    avtl = get_1d(ilosc);
 
     //fill_with_nothing(tl, tileNumber);
 
 
     read_tiles(tl,tilesy,(countlines(tilesy)+1));
+    fill_available(tl, avtl, ilosc);
 
     welcomeScreen (tl, tileNumber);
-
-
 
     //print(p, rozmiar);
 
     draw_grid(pn, rozmiar+2);
+    //draw_available(avtl, ilosc);
     check_for_action(pn, tl, rozmiar+2);
     draw_grid(pn, rozmiar+2);
-    print_to_file( pn, output, rozmiar+2);
+    
+    print_to_file( pn, mapa, rozmiar+2);
 
     free2Darray(pn , rozmiar+2);
     free2Darray(p , rozmiar);
@@ -182,15 +193,15 @@ int check_the_edge(tile_placed** p, int N)
 
 void read_tiles(tile* tl, char* filename, int N)
 {
-    FILE *tiles;
+    FILE *tilies;
     char *mode = "r";
     int i = 0;
     char* buffer;
     char* sentence;
-    tiles = fopen(filename, mode);
+    tilies = fopen(filename, mode);
     buffer = malloc(300 * sizeof(char));
     sentence = malloc(300 * sizeof(char) + 8 * sizeof(int) +9 * sizeof(char));
-    while( fgets( sentence, 256, tiles) != NULL )
+    while( fgets( sentence, 256, tilies) != NULL )
     {
                 //fgets( sentence, 256, tiles);
                 //fscanf(tiles, "%[^\n]", sentence);
@@ -215,8 +226,8 @@ void read_tiles(tile* tl, char* filename, int N)
         }
     free(buffer);
     free(sentence);
-    fclose(tiles);
-    }
+    fclose(tilies);
+}
 
 void print_to_file(tile_placed** p, char* filename, int N)
 {
@@ -415,7 +426,6 @@ int *get_1d(int N)
     char *tl = malloc(N*N*sizeof(tile *));
     if(!tl)
         return NULL;
-
     return tl;
 }
 
@@ -616,7 +626,9 @@ void check_for_action(tile_placed**p, tile* tl, int N)
     while(g == 0)
     {
         scanf("%d", &id);
-        if((id == 1 )||(id == 2 )||(id == 3 )||(id == 4 )||(id == 5 )||(id == 6 )||(id == 7 )||(id == 8 )||(id == 9 )||(id == 10 )||(id == 11 )||(id == 12 )||(id == 13 )||(id == 14 ))
+        if(((id == 1 )||(id == 2 )||(id == 3 )||(id == 4 )||(id == 5 )
+            ||(id == 6 )||(id == 7 )||(id == 8 )||(id == 9 )||(id == 10 ) //&& avtl[for(int i = 0;i<ilosc;i++)]
+            ||(id == 11 )||(id == 12 )||(id == 13 )||(id == 14 )) ) //tu dodać warunek czy zawiera się w available tiles
         {
             printf("Now choose where you want to place it by entering number of field using y axis:\n");
             while(g == 0)
@@ -664,6 +676,21 @@ void check_for_action(tile_placed**p, tile* tl, int N)
         }
     }
 
+}
+
+void fill_available(tile* avtl, tile* tl, int rozmiar)
+{
+    rnd_pcg_t pcg;
+	rnd_pcg_seed( &pcg, 0u ); // initialize generator
+    time_t seconds;
+	time( &seconds );
+	rnd_pcg_seed( &pcg, (RND_U32) seconds ); 
+    for( int i = 0; i < rozmiar; i++ ) 
+	{
+        RND_U32 n = rnd_pcg_next( &pcg );
+		int r = rnd_pcg_range( &pcg, 1, 6 );
+		printf( "%d, ", r );
+	}
 }
 
 //void menu()
