@@ -1,4 +1,6 @@
 #ignore exec files
-*.exe
+carracan.exe
+carracan
 #ignore obj files
 *.o
+
