@@ -17,10 +17,18 @@
 
 
 
+// [] [] [] [] [] [] [] []
+
+//ListHeader ---> &[val] *alloca*
+//  prev //--- [val] ---> next || prev <--- [val] ---> next || prev <--- [val] ---> next || prev <--- [val]  ---> next || prev <--- [val]  ---// next 
+// --// NULL ptr
+// insert                 (ListHeader, val)
+// delete by name / by id (ListHeader, id) (ListHeader, name)
+
 // Definicja struktur
-
+	
 extern int errno;
-
+ // example https://github.com/wutproggroup/carcassonne
 struct tile{
     int id;
     char* name;
@@ -31,7 +39,7 @@ struct tile{
     int right;
     int bottom;
     int left;
-};
+}; //poprawić strukturę tak żeby można było rozszerzać tablicę
 
 typedef struct tile tile;
 
@@ -42,6 +50,7 @@ struct tile_placed
 };
 
 typedef struct tile_placed tile_placed;
+// problem z rozszerzaniem - rozszerza się zawsze w dół... ;/
 
 // defiinicja funkcji tablica 2d
 
@@ -402,6 +411,14 @@ void welcomeScreen (tile* tl, int N)
 	printf ("then points will be counted and player who gets more points wins.\n");
 	printf ("List of the tiles. (below is the information what does the number below imply)\n");
 	printf ("id   name   isTemple   crossRoads   bonus   top   right   bottom   left\n");
+#if defined LINUX
+	getchar();
+#elif defined WINDOWS
+	getch();
+#elif defined MACOSX
+	char z;
+	scanf("%c",z);
+#endif
 	for(int i =0; i<N ; i++)
     {
             printf("%d,%s,%d,%d,%d,%d,%d,%d,%d;\n", tl[i].id, tl[i].name, tl[i].isTemple, tl[i].crossRoads, tl[i].bonus,  tl[i].top, tl[i].right, tl[i].bottom, tl[i].left);
@@ -703,7 +720,7 @@ void fill_available(tile* avtl, tile* tl, int rozmiar)
 //    printf("3. CONTROLS");
 //    printf("4. EXIT");
 //    error1:
-//    choice=getch();
+//    choice=getchar();
 //    switch(choice)
 //    {
 //	case '1' : pvp();

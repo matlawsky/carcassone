@@ -1,2 +1,7 @@
-.exe
+#ignore Visual Studio Code project files
 .vscode
+#ignore exec files
+carracan.exe
+carracan
+#ignore obj files
+*.o
