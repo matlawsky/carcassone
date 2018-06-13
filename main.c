@@ -400,7 +400,14 @@ void welcomeScreen (tile* tl, int N)
 	printf ("then points will be counted and player who gets more points wins.\n");
 	printf ("List of the tiles. (below is the information what does the number below imply)\n");
 	printf ("id   name   isTemple   crossRoads   bonus   top   right   bottom   left\n");
+#if defined LINUX
+	getchar();
+#elif defined WINDOWS
 	getch();
+#elif defined MACOSX
+	char z;
+	scanf("%c",z);
+#endif
 	for(int i =0; i<N ; i++)
     {
             printf("%d,%s,%d,%d,%d,%d,%d,%d,%d;\n", tl[i].id, tl[i].name, tl[i].isTemple, tl[i].crossRoads, tl[i].bonus,  tl[i].top, tl[i].right, tl[i].bottom, tl[i].left);
@@ -686,7 +693,7 @@ void check_for_action(tile_placed**p, tile* tl, int N)
 //    printf("3. CONTROLS");
 //    printf("4. EXIT");
 //    error1:
-//    choice=getch();
+//    choice=getchar();
 //    switch(choice)
 //    {
 //	case '1' : pvp();
