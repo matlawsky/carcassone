@@ -6,6 +6,20 @@ Windows
 ---
 To build on windows you need MinGW - tested on mingw32-base 2013072200.
 
+Best, use the Git Bash with MinGW and slightly mod-ed .bashrc script:
+...
+$ cat ~/.bashrc
+#! /bin/bash
+eval `ssh-agent -s`
+ssh-add ~/.ssh/id_rsa
+
+PATH="/c/MinGW/bin:"$PATH
+alias make="mingw32-make.exe"
+...
+
+See, that after Shebang you have one normal *space*!
+See also, that PATH should be modificated with MinGW installation path coresponding to your previous decisions...
+
 Linux
 ---
 Use GCC 5.
